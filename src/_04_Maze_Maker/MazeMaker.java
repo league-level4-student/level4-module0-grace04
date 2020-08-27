@@ -33,7 +33,7 @@ public class MazeMaker{
 	//6. Complete the selectNextPathMethod
 	private static void selectNextPath(Cell currentCell) {
 		//A. mark cell as visited
-		currentCell.hasBeenVisited();
+		currentCell.setBeenVisited(true);
 		//B. Get an ArrayList of unvisited neighbors using the current cell and the method below
 		ArrayList<Cell> unvisNei = getUnvisitedNeighbors(currentCell);
 		//C. if has unvisited neighbors,
@@ -75,25 +75,19 @@ public class MazeMaker{
 				c1.setSouthWall(false);
 				c2.setNorthWall(false);
 			}
-			if(y1>y2) {
+			else if(y1>y2) {
 				c1.setNorthWall(false);
 				c2.setSouthWall(false);
 			}
-			else {
-				System.out.println("Same cell");
-			}
 		}
-		if(y1==y2) {
+		else if(y1==y2) {
 			if(x1<x2) {
 				c1.setEastWall(false);
 				c2.setWestWall(false);
 			}
-			if(x1>x2) {
+			else if(x1>x2) {
 				c1.setWestWall(false);
 				c2.setEastWall(false);
-			}
-			else {
-				System.out.println("Same cell");
 			}
 		}
 		else {
@@ -106,14 +100,14 @@ public class MazeMaker{
 	//   to the ArrayList
 	private static ArrayList<Cell> getUnvisitedNeighbors(Cell c) {
 		ArrayList<Cell> unvisNei = new ArrayList<Cell>();
-		if (c.getY()>0)
-			unvisNei.add(maze.getCell(c.getX(),c.getY()-1));
-		if (c.getX()<unvisNei.size()-1)
-			unvisNei.add(maze.getCell(c.getX()+1,c.getY()));
-		if (c.getX()>0)
-			unvisNei.add(maze.getCell(c.getX()-1,c.getY()));
-		if (c.getY()<unvisNei.size()-1)
-			unvisNei.add(maze.getCell(c.getX(),c.getY()+1));
+		if(c.getY()>0 && !maze.getCell(c.getX(), c.getY()-1).hasBeenVisited())
+			unvisNei.add(maze.getCell(c.getX(), c.getY()-1));
+		if(c.getY()<maze.getHeight()-1 && !maze.getCell(c.getX(), c.getY()+1).hasBeenVisited())
+			unvisNei.add(maze.getCell(c.getX(), c.getY()+1));
+		if(c.getX()>0 && !maze.getCell(c.getX()-1, c.getY()).hasBeenVisited())
+			unvisNei.add(maze.getCell(c.getX()-1, c.getY()));
+		if(c.getX()<maze.getWidth()-1 && !maze.getCell(c.getX()+1, c.getY()).hasBeenVisited())
+			unvisNei.add(maze.getCell(c.getX()+1, c.getY()));
 		return unvisNei;
 	}
 }
